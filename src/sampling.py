@@ -6,7 +6,7 @@ import pandas as pd
 def main():
     ref_file = "reference_data/human_g1k_v37/human_g1k_v37.fasta"
     singleton_file = "testData.tsv"
-    output_list = []
+    final = []
     # Create fasta object
     fasta_obj = Fasta(ref_file, read_ahead=10000, as_raw=True)
     # Iterate over singletons file
@@ -15,9 +15,10 @@ def main():
         line = fp.readline()
         line = fp.readline()
         while line:
-            output_list.extend(process_line(line, fasta_obj))
+            final.extend(process_line(line, fasta_obj))
             line = fp.readline()
-    final = pd.DataFrame(output_list)
+    print("Done with sampling...")
+    final = pd.DataFrame(final)
     final.to_csv("data/sample.csv", index = None, header=True)
     print("Done!")
 
