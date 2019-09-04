@@ -11,8 +11,18 @@ It is recommended that this analysis is run in a virtualenv. In particular, I us
 * python 3.6+
 * pyfaidx
 
+## Obtaining the Reference Data
+
+### Human Reference Genome (v37)
+
+```bash
+mkdir "reference_data/human_g1k_v37"
+curl -s "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/technical/reference/human_g1k_v37.fasta.gz" | gunzip -c > "reference_data/human_g1k_v37/human_g1k_v37.fasta"
+```
+
 ## Directory Structure
 
 * designs: documents detailing code design
 * src: source files for analyses
-* reference_data: 
+* reference_data: outside data used in analyses
+    * human_g1k_v37: v37 of the human reference genome
