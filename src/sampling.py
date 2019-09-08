@@ -20,12 +20,17 @@ def main():
     fasta_obj = Fasta(ref_file, read_ahead=10000, as_raw=True)
     # Iterate over singletons file
     print("Sampling control observations for singletons...")
+    counter = 1
     with open(singleton_file) as fp:
         line = fp.readline()
         line = fp.readline()
         while line:
             output_list.append(process_line(line, chrom, fasta_obj))
             line = fp.readline()
+            counter += 1
+            if counter % 100 == 0:
+                print(counter)
+    print("Done sampling, generating data frame...")
     final = pd.DataFrame(output_list)
     final.to_csv(args.output, index = None, header=True)
     print("Done!")
