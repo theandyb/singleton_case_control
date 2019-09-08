@@ -5,7 +5,7 @@ import pandas as pd
 
 def main():
     ref_file = "reference_data/human_g1k_v37/human_g1k_v37.fasta"
-    singleton_file = "testData.tsv"
+    singleton_file = "/net/snowwhite/home/beckandy/research/smaug-redux/summaries/singletons.full.summary"
     output_list = []
     # Create fasta object
     fasta_obj = Fasta(ref_file, read_ahead=10000, as_raw=True)
@@ -52,7 +52,7 @@ def sample_control(chrom, pos, ref, fsObj, window=300, bp=4):
         'chrom' : chrom,
         'pos' : ix,
         'motif' : newSeq,
-        'mutation' : 0 
+        'mutation' : 0
     }
     return entry
 
