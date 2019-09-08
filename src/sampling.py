@@ -28,7 +28,7 @@ def main():
             output_list.append(process_line(line, chrom, fasta_obj))
             line = fp.readline()
             counter += 1
-            if counter % 100 == 0:
+            if counter % 1000 == 0:
                 print(counter)
     print("Done sampling, generating data frame...")
     final = pd.DataFrame(output_list)
