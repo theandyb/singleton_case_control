@@ -23,3 +23,8 @@ Fasta file with chromosomes numbered without prefix or suffix (i.e. '22', not 'c
     * Get sequence from fasta in 300bp window around position
     * Get indices of location of reference allele in string, ignoring center allele
     * Sample 1 index, return 9-mer sequence centered at site
+
+### Procedure notes
+
+* Run one chromosome at a time
+* Only need to save off sampled (case) sequence -> aggregate counts later
