@@ -9,6 +9,7 @@ def main():
     parser.add_argument("-s", "--singleton", help="Location of singleton file", required=True)
     parser.add_argument("-f", "--fasta", help="FASTA file to grab sequence from", required=True)
     parser.add_argument("-o", "--output", help="Path to output", required=True)
+    parser.add_argument("-x", "--skip", help = "Number of additional lines to skip", required=False)
     parser.add_argument("chrom", help="Chromosome we are sampling from")
     args = parser.parse_args()
 
@@ -30,9 +31,11 @@ def main():
             counter += 1
             if counter % 1000 == 0:
                 print(counter)
-    print("Done sampling, generating data frame...")
-    final = pd.DataFrame(output_list)
-    final.to_csv(args.output, index = None, header=True)
+                pd.DataFrame(output_list).to_csv(args.output, index = None, header=False, mode='a')
+                output_list = []
+    print("Done sampling...")
+    if output_list:
+        pd.DataFrame(output_list).to_csv(args.output, index = None, header=False, mode='a')
     print("Done!")
 
 
