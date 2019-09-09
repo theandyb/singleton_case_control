@@ -40,7 +40,7 @@ def main():
 
 
 def process_line(x, chrom, fsObj):
-    content = x.split("\t")
+    content = x.strip().split("\t")
     pos = int(content[1])
     ref = content[2]
     motif = content[3][:9]
