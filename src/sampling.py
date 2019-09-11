@@ -18,7 +18,7 @@ def main():
     chrom = args.chrom
     output_list = []
     # Create fasta object
-    l
+    fasta_obj = Fasta(ref_file, read_ahead=10000, as_raw=True)
     # Iterate over singletons file
     print("Sampling control observations for singletons...")
     counter = 1
