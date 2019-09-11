@@ -28,6 +28,7 @@ def main():
             cLine = 1
             while cLine <= args.skip:
                 next(fp)
+                cLine += 1
         line = fp.readline()
         while line:
             output_list.append(process_line(line, chrom, fasta_obj))
