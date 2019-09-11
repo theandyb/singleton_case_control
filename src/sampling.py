@@ -18,7 +18,7 @@ def main():
     chrom = args.chrom
     output_list = []
     # Create fasta object
-    fasta_obj = Fasta(ref_file, read_ahead=10000, as_raw=True)
+    l
     # Iterate over singletons file
     print("Sampling control observations for singletons...")
     counter = 1
@@ -53,7 +53,8 @@ def process_line(x, chrom, fsObj):
     return sample_control(chrom, pos, ref, cat, fsObj)
 
 def sample_control(chrom, pos, ref, cat, fsObj, window=300, bp=4):
-    seq = fsObj['{}'.format(chrom)][(pos-1-window):(pos-1+window)]
+    lowBound = max((pos-1-window), 1)
+    seq = fsObj['{}'.format(chrom)][lowBound:(pos-1+window)]
     sites = [m.start() for m in re.finditer(ref, seq)]
     ix = random.choice(sites) + pos - 1 - window
     while ix == pos:
