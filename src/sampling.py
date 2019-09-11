@@ -23,7 +23,11 @@ def main():
     print("Sampling control observations for singletons...")
     counter = 1
     with open(singleton_file) as fp:
-        line = fp.readline()
+        next(fp)
+        if args.skip:
+            cLine = 1
+            while cLine <= args.skip:
+                next(fp)
         line = fp.readline()
         while line:
             output_list.append(process_line(line, chrom, fasta_obj))
