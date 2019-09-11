@@ -3,7 +3,7 @@ library(janitor)
 
 args = commandArgs(trailingOnly=TRUE)
 
-file_location <- args[1] #"/net/snowwhite/home/beckandy/research/singleton_case_control/data/chr21.csv"
+file_location <- args[1] #"/net/snowwhite/home/beckandy/research/singleton_case_control/data/chr22.csv"
 out_file <- args[2]
 # read file in
 df <- read_csv(file_location, col_names = c("Cat", "CHR", "Motif", "Pos")) %>%

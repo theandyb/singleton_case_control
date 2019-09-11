@@ -8,4 +8,4 @@
 #SBATCH --partition=nomosix
 #SBATCH --requeue
 
-srun python /net/snowwhite/home/beckandy/research/singleton_case_control/src/sampling.py -s /net/snowwhite/home/beckandy/research/smaug-redux/summaries/chr16_full.singletons -f /net/snowwhite/home/beckandy/research/smaug-redux/reference_data/human_g1k_v37/chr16.fasta.gz -o /net/snowwhite/home/beckandy/research/singleton_case_control/data/chr16.csv -x 1160999 16
+srun python /net/snowwhite/home/beckandy/research/singleton_case_control/src/sampling.py -s /net/snowwhite/home/beckandy/research/smaug-redux/summaries/chr17_full.singletons -f /net/snowwhite/home/beckandy/research/smaug-redux/reference_data/human_g1k_v37/chr17.fasta.gz -o /net/snowwhite/home/beckandy/research/singleton_case_control/data/chr17.csv 17
