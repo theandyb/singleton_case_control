@@ -52,17 +52,14 @@ def process_line(x, chrom, fsObj):
     cat = content[4]
     return sample_control(chrom, pos, ref, cat, fsObj)
 
-def sample_control(chrom, pos, ref, cat, fsObj, window=300, bp=4):
+def sample_control(chrom, pos, ref, cat, fsObj, window=150, bp=4):
     lowBound = max((pos-1-window), 1)
     seq = fsObj['{}'.format(chrom)][lowBound:(pos-1+window)]
     sites = [m.start() for m in re.finditer(ref, seq)]
-    ix = random.choice(sites) + pos - 1 - window
-    while ix == pos:
-        ix = random.choice(sites) + pos - 1 - window
-    newSeq = fsObj['{}'.format(chrom)][(ix - bp):(ix+1+bp)]
-    while 'N' in newSeq:
-        ix = random.choice(sites) + pos - 1 - window
-        newSeq = fsObj['{}'.format(chrom)][(ix - bp):(ix+1+bp)]
+    ix = random.choice(sites)
+    while ix == (window - 1):
+        ix = random.choice(sites)
+    newSeq = seq[(ix - bp):(ix+bp)]
     entry = {
         'chrom' : chrom,
         'pos' : ix,
