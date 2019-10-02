@@ -57,7 +57,7 @@ def process_line(x, chrom, seq):
 
 def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
     lowBound = max((pos-1-window), 1)
-    upBound = min(len(seq), pos - 1 + window)
+    upBound = min(len(seq), pos + window)
     subseq = seq[lowBound:upBound]
     sites = [m.start() for m in re.finditer(ref, subseq)]
     ix = random.choice(sites)
