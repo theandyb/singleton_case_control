@@ -18,7 +18,10 @@ def main():
     chrom = args.chrom
     output_list = []
     # Create fasta object
-    fasta_obj = Fasta(ref_file, read_ahead=10000, as_raw=True)
+    fasta_obj = Fasta(ref_file)
+    seq = fasta_reader["{}".format(chrom)]
+    seqstr = seq[0:len(seq)].seq
+    print("FASTA read!")
     # Iterate over singletons file
     print("Sampling control observations for singletons...")
     counter = 1
@@ -31,7 +34,7 @@ def main():
                 cLine += 1
         line = fp.readline()
         while line:
-            output_list.append(process_line(line, chrom, fasta_obj))
+            output_list.append(process_line(line, chrom, seqstr))
             line = fp.readline()
             counter += 1
             if counter % 1000 == 0:
@@ -44,22 +47,23 @@ def main():
     print("Done!")
 
 
-def process_line(x, chrom, fsObj):
+def process_line(x, chrom, seq):
     content = x.strip().split("\t")
     pos = int(content[1])
     ref = content[2]
     motif = content[3][:9]
     cat = content[4]
-    return sample_control(chrom, pos, ref, cat, fsObj)
+    return sample_control(chrom, pos, ref, cat, seq)
 
-def sample_control(chrom, pos, ref, cat, fsObj, window=150, bp=4):
+def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
     lowBound = max((pos-1-window), 1)
-    seq = fsObj['{}'.format(chrom)][lowBound:(pos-1+window)]
-    sites = [m.start() for m in re.finditer(ref, seq)]
+    upBound = min(len(seq), pos - 1 + window)
+    subseq = seq[lowBound:upBound]
+    sites = [m.start() for m in re.finditer(ref, subseq)]
     ix = random.choice(sites)
     while ix == (window - 1):
         ix = random.choice(sites)
-    newSeq = seq[(ix - bp):(ix+bp)]
+    newSeq = subseq[(ix - bp):(ix+bp)]
     entry = {
         'chrom' : chrom,
         'pos' : ix,
