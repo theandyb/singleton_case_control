@@ -19,7 +19,7 @@ def main():
     output_list = []
     # Create fasta object
     fasta_obj = Fasta(ref_file)
-    seq = fasta_reader["{}".format(chrom)]
+    seq = fasta_obj["{}".format(chrom)]
     seqstr = seq[0:len(seq)].seq
     print("FASTA read!")
     # Iterate over singletons file
