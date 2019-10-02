@@ -63,7 +63,7 @@ def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
     ix = random.choice(sites)
     while ix == (window - 1):
         ix = random.choice(sites)
-    newSeq = subseq[(ix - bp):(ix+bp)]
+    newSeq = subseq[(ix - bp - 1):(ix+bp)]
     entry = {
         'chrom' : chrom,
         'pos' : ix,
