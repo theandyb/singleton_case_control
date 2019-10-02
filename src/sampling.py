@@ -37,7 +37,7 @@ def main():
             output_list.append(process_line(line, chrom, seqstr))
             line = fp.readline()
             counter += 1
-            if counter % 1000 == 0:
+            if counter % 10000 == 0:
                 print(counter)
                 pd.DataFrame(output_list).to_csv(args.output, index = None, header=False, mode='a')
                 output_list = []
@@ -56,17 +56,22 @@ def process_line(x, chrom, seq):
     return sample_control(chrom, pos, ref, cat, seq)
 
 def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
-    lowBound = max((pos-1-window), 1)
-    upBound = min(len(seq), pos + window)
+    lowBound = max((pos-1-window-bp), 1)
+    upBound = min(len(seq), pos + window+bp)
     subseq = seq[lowBound:upBound]
-    sites = [m.start() for m in re.finditer(ref, subseq)]
+    sites2 = [m.start() for m in re.finditer(ref, subseq)]
+    sites = [s for s in sites2 if (s >= bp and s < (len(subseq)-bp))]
+    if (window - 1 + bp) in sites:
+        sites.remove(window - 1 + bp)
     ix = random.choice(sites)
-    while ix == (window - 1):
-        ix = random.choice(sites)
     newSeq = subseq[(ix - bp - 1):(ix+bp)]
+    while ' ' in newSeq:
+        print("IT HAPPENED!")
+        ix = random.choice(sites)
+        newSeq = subseq[(ix - bp - 1):(ix+bp)]
     entry = {
         'chrom' : chrom,
-        'pos' : ix,
+        'pos' : pos,
         'motif' : newSeq,
         'cat': cat,
         'ref': ref
