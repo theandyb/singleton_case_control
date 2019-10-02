@@ -68,7 +68,8 @@ def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
         'chrom' : chrom,
         'pos' : ix,
         'motif' : newSeq,
-        'cat': cat
+        'cat': cat,
+        'ref': ref
     }
     return entry
 
