@@ -6,11 +6,7 @@ args = commandArgs(trailingOnly=TRUE)
 in_file <- args[1]
 out_file <- args[2]
 
-df <- read_tsv(in_file, col_names = c("Category",
-                                     "CHROM",
-                                     "Motif",
-                                     "",
-                                     "Ref")) %>% 
+df <- read_tsv(in_file) %>% 
     select(Motif, Category) %>%
     rowwise %>% 
     mutate(Motif = substr(Motif, 1,9))
