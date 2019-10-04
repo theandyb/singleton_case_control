@@ -65,7 +65,7 @@ def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
         sites.remove(window - 1 + bp)
     ix = random.choice(sites)
     newSeq = subseq[(ix - bp - 1):(ix+bp)]
-    while ' ' in newSeq:
+    while not re.search("[ATCG]{9}", newSeq):
         print("IT HAPPENED!")
         ix = random.choice(sites)
         newSeq = subseq[(ix - bp - 1):(ix+bp)]
