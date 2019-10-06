@@ -56,7 +56,7 @@ def process_line(x, chrom, seq):
     return sample_control(chrom, pos, ref, cat, seq)
 
 def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
-    lowBound = max((pos-1-window-bp), 1)
+    lowBound = max((pos-1-window-bp), 0)
     upBound = min(len(seq), pos + window+bp)
     subseq = seq[lowBound:upBound]
     sites2 = [m.start() for m in re.finditer(ref, subseq)]
@@ -64,11 +64,11 @@ def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
     if (window - 1 + bp) in sites:
         sites.remove(window - 1 + bp)
     ix = random.choice(sites)
-    newSeq = subseq[(ix - bp - 1):(ix+bp)]
+    newSeq = subseq[(ix - bp):(ix+bp+1)]
     while not re.search("[ATCG]{9}", newSeq):
         #print("IT HAPPENED!")
         ix = random.choice(sites)
-        newSeq = subseq[(ix - bp - 1):(ix+bp)]
+        newSeq = subseq[(ix - bp):(ix+bp+1)]
     entry = {
         'chrom' : chrom,
         'pos' : pos,
