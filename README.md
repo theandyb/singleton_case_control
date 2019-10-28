@@ -31,7 +31,7 @@ curl -s "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/technical/reference/human_
 
 1. `sbatch src/batch_sample.sh` to sample control distribution for singleton observations
 
-        * Note: change `src/sampling.py` to sample more/less bases surrounding sampled sites
+        Note: change `src/sampling.py` to sample more/less bases surrounding sampled sites
         
 2. `sbatch src/batch_aggregate.sh` to generate motif counts from control observations
 3. `sbatch src/batch_singleton_count.sh` to generate motif counts from singletons
