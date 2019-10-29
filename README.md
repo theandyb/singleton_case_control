@@ -35,3 +35,4 @@ curl -s "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/technical/reference/human_
         
 2. `sbatch src/batch_aggregate.sh` to generate motif counts from control observations
 3. `sbatch src/batch_singleton_count.sh` to generate motif counts from singletons
+4. `Rscript src/genomewide_counts.r` to combine tables from all chromosomes into one file
