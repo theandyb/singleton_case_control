@@ -26,6 +26,7 @@ curl -s "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/technical/reference/human_
 * src: source files for analyses
 * reference_data: outside data used in analyses
     * human_g1k_v37: v37 of the human reference genome
+* data: output, mostly from data processing pipeline
     
 ## Running the Analyses
 

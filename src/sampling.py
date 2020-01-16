@@ -33,6 +33,7 @@ def main():
                 next(fp)
                 cLine += 1
         line = fp.readline()
+        print(line)
         while line:
             output_list.append(process_line(line, chrom, seqstr))
             line = fp.readline()
@@ -51,22 +52,44 @@ def process_line(x, chrom, seq):
     content = x.strip().split("\t")
     pos = int(content[1])
     ref = content[2]
-    motif = content[3][:9]
-    cat = content[4]
+    motif = content[6][:9]
+    cat = content[7]
     return sample_control(chrom, pos, ref, cat, seq)
 
 def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
-    lowBound = max((pos-1-window-bp), 0)
-    upBound = min(len(seq), pos + window+bp)
-    subseq = seq[lowBound:upBound]
-    sites2 = [m.start() for m in re.finditer(ref, subseq)]
-    sites = [s for s in sites2 if (s >= bp and s < (len(subseq)-bp))]
-    if (window - 1 + bp) in sites:
-        sites.remove(window - 1 + bp)
+    sites1 = []
+    sites2 = []
+    
+    while(len(sites1) == 0 and len(sites2) == 0):
+        lseg_lb = max((pos-1-window-bp), 0)
+        lseg_ub = pos - bp - 1
+        useg_lb = pos + bp
+        useg_ub = upBound = min(len(seq), pos + window + bp)
+        subseq1 = seq[lseg_lb:lseg_ub]
+        subseq2 = seq[useg_lb:useg_ub]
+        subseq1 = re.sub(r'^N+', '', subseq1)
+        subseq2 = re.sub(r'N+$', '', subseq2)
+
+        sites1 = [m.start() for m in re.finditer(ref, subseq1)]
+        sites2 = [m.start() for m in re.finditer(ref, subseq2)]
+        sites1 = [s for s in sites1 if (s >= bp and s < (len(subseq1)-bp))]
+        sites2 = [s for s in sites2 if (s >= bp and s < (len(subseq2)-bp))]
+        window += 50 #expand window in edge case where mut_site is only ref_allele in window
+    window -= 50    
+    flip = random.randint(0, 1)
+    if ((flip == 0 and len(sites1)>0) or (len(sites2)==0)):
+        subseq = subseq1
+        sites = sites1
+    else:
+        subseq = subseq2
+        sites = sites2
+    if(len(sites)==0):
+        print("Bad pos: {}".format(pos))
     ix = random.choice(sites)
     newSeq = subseq[(ix - bp):(ix+bp+1)]
     while not re.search("[ATCG]{9}", newSeq):
-        #print("IT HAPPENED!")
+        #print(pos)
+        sites.remove(ix)
         ix = random.choice(sites)
         newSeq = subseq[(ix - bp):(ix+bp+1)]
     entry = {
@@ -74,11 +97,13 @@ def sample_control(chrom, pos, ref, cat, seq, window=150, bp=4):
         'pos' : pos,
         'motif' : newSeq,
         'cat': cat,
-        'ref': ref
+        'ref': ref,
+        'window': window
     }
     return entry
 
 
 
 if __name__ == "__main__":
+    random.seed( 8675 ) # threeeeee ohhhhh niiiiii-eee-iiiiine
     main()

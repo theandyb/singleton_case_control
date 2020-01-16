@@ -4,13 +4,14 @@ library(janitor)
 args = commandArgs(trailingOnly=TRUE)
 
 file_location <- args[1] #"/net/snowwhite/home/beckandy/research/singleton_case_control/data/chr22.csv"
-out_file <- args[2]
+outFile <- args[2]
 # read file in
 df <- read_csv(file_location, col_names = c("Cat",
                                      "CHROM",
                                      "Motif",
                                      "Pos",
-                                     "Ref")) %>%
+                                     "Ref",
+                                     "Window")) %>%
     rename(Center = Ref)
 
 rc <- function(z){
@@ -42,6 +43,7 @@ df2 <- df %>%
     filter(Center == "A" | Center == "C")
 
 # Get reverse complement when center is T or G
+print("Reverse complement...")
 df1 <- df1 %>%
     mutate(Motif = rc(Motif))
 
@@ -49,20 +51,15 @@ df1 <- df1 %>%
 df <- bind_rows(df1, df2) %>% select(Cat, Motif)
 rm(df1, df2)
 
-# Tabulate some stuff!
-## First: dummy vars for positions
-#for(i in c(1:4, 6:9)){
-#    df[[paste0("c",i)]] <- with(df,substr(Motif,i,i))
-#}
-#df <- df %>% select(Cat, c1:c9)
-
 cats <- unique(df$Cat)
 
 ## Table for each category
 tables <- list()
 for(mt in cats){
+    print(mt)
     tables[[mt]] <- df %>%
         filter(Cat == mt) %>%
         tabyl(Motif)
 }
-saveRDS(tables, file = out_file)
+
+saveRDS(tables, file = outFile)

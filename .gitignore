@@ -1,3 +1,8 @@
 .vscode
 .ipynb_checkpoints
 slurm*
+*.tar.gz
+*.ipynb
+.Rdata
+.Rhistory
+old_notebooks/*

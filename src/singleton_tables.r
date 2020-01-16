@@ -9,7 +9,7 @@ out_file <- args[2]
 df <- read_tsv(in_file) %>% 
     select(Motif, Category) %>%
     rowwise %>% 
-    mutate(Motif = substr(Motif, 1,9))
+    mutate(Motif = substr(Motif, 1,21))
 
 cats <- unique(df$Category)
 
